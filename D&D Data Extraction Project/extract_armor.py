@@ -13,46 +13,50 @@ def run():
     # Step 3: Find all rows just in that table
     all_rows = armor_table.find_all("tr")
 
-
-    # Step 3: Initialize variables
+    # Step 4: Initialize variables
     data = []
     current_category = ""
 
-    # Step 4: Loop through all table rows
+    # Step 5: Loop through all table rows
     for row in all_rows:
         cols = row.find_all("td")
 
-        # Check if it's a category row (like "Light Armor")
+        # Category row (e.g., "Light Armor")
         if len(cols) == 1:
             em = cols[0].find("em")
             if em:
                 current_category = em.text.strip()
 
-        # If it’s an armor row (6 columns), extract the data
+        # Armor row
         elif len(cols) == 6:
+            link_tag = cols[0].find("a")
+            if link_tag:
+                armor_name = link_tag.get_text(strip=True)
+                armor_href = link_tag["href"]
+                armor_url = f"https://www.dndbeyond.com{armor_href}"
+            else:
+                armor_name = cols[0].get_text(strip=True)
+                armor_url = ""
+
             data.append({
                 "Category": current_category,
-                "Name": cols[0].get_text(strip=True),
+                "Name": armor_name,
                 "Armor Class (AC)": cols[1].get_text(strip=True),
                 "Strength": cols[2].get_text(strip=True),
                 "Stealth": cols[3].get_text(strip=True),
                 "Weight": cols[4].get_text(strip=True),
                 "Cost": cols[5].get_text(strip=True),
+                "URL": armor_url
             })
 
     # Clean up the Category names
     for entry in data:
-        # Remove anything in parentheses
         entry["Category"] = re.sub(r"\s*\(.*?\)", "", entry["Category"]).strip()
-        # Remove " Armor" from the end
         entry["Category"] = entry["Category"].removesuffix(" Armor")
 
-    # Step 5: Convert to a pandas DataFrame
+    # Save to CSV
     df = pd.DataFrame(data)
-
-    # Step 6: Save the output to CSV
     df.to_csv("./data_tables/armor_table.csv", index=False, encoding="utf-8-sig")
-
     print("✅ Armor data extraction complete with", len(df), "rows. Data saved to armor_table.csv.")
 
 if __name__ == "__main__":

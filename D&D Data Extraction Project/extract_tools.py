@@ -22,11 +22,16 @@ def run():
         if getattr(node, "name", None) == "h3":
             current_category = node.get_text(strip=True)
         if getattr(node, "name", None) == "h4":
-            # --- name & cost ---
+            # Extract name, cost, and optional link
             full = node.get_text(" ", strip=True)
             m = re.match(r"^(.*?)(?:\s*\(([^)]*)\))?$", full)  # name (cost)
-            name  = m.group(1).strip()
-            cost  = (m.group(2) or "").strip()
+            name = m.group(1).strip()
+            cost = (m.group(2) or "").strip()
+
+            # Get URL if there's a link
+            link_tag = node.find("a")
+            url = f"https://www.dndbeyond.com{link_tag['href']}" if link_tag else ""
+
 
             # walk forward until next h4/hr/h3 to gather <p> blocks
             p = node.next_sibling
@@ -53,8 +58,10 @@ def run():
                 "Category": current_category,
                 "Name": name,
                 "Cost": cost,
+                "URL": url,
                 **fields
             })
+
 
     df = pd.DataFrame(rows)
     df.to_csv("./data_tables/tools_table.csv", index=False, encoding="utf-8-sig")
