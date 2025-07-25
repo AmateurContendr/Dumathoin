@@ -27,7 +27,7 @@ def run():
     df = pd.DataFrame(data)
     df.to_csv("./data_tables/coins_table.csv", index=False, encoding="utf-8-sig")
 
-    print("✅ Coin data extraction complete.")
+    print("✅ Coin data extraction complete with", len(df), "rows. Data saved to coins_table.csv.")
 
 if __name__ == "__main__":
     run()

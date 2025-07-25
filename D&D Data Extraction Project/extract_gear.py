@@ -28,7 +28,7 @@ def run():
     df = pd.DataFrame(data)
     df.to_csv("./data_tables/gear_table.csv", index=False, encoding="utf-8-sig")
 
-    print("✅ Gear data extraction complete.")
+    print("✅ Gear data extraction complete with", len(df), "rows. Data saved to gear_table.csv.")
 
 if __name__ == "__main__":
     run()

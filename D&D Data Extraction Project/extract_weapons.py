@@ -50,7 +50,7 @@ def run():
     # Step 6: Save the output to CSV
     df.to_csv("./data_tables/weapons_table.csv", index=False, encoding="utf-8-sig")
 
-    print("✅ Weapon Data Extraction complete. Data saved to weapons_table.csv")
+    print("✅ Weapon data extraction complete with", len(df), "rows. Data saved to weapons_table.csv.")
 
 if __name__ == "__main__":
     run()

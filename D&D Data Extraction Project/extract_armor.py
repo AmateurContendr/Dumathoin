@@ -53,7 +53,7 @@ def run():
     # Step 6: Save the output to CSV
     df.to_csv("./data_tables/armor_table.csv", index=False, encoding="utf-8-sig")
 
-    print("✅ Armor Data Extraction complete. Data saved to armor_table.csv")
+    print("✅ Armor data extraction complete with", len(df), "rows. Data saved to armor_table.csv.")
 
 if __name__ == "__main__":
     run()

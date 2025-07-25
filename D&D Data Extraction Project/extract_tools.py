@@ -58,7 +58,8 @@ def run():
 
     df = pd.DataFrame(rows)
     df.to_csv("./data_tables/tools_table.csv", index=False, encoding="utf-8-sig")
-    print("✅ tools_table.csv with", len(df), "rows")
+
+    print("✅ Tool data extraction complete with", len(df), "rows. Data saved to tools_table.csv.")
 
 if __name__ == "__main__":
     run()
