@@ -23,7 +23,6 @@ def run():
                 "Weight": cols[1].get_text(strip=True),
                 "Cost (GP)": cols[2].get_text(strip=True)
             })
-        print(row)
 
     # Step 5: Convert and save
     df = pd.DataFrame(data)
